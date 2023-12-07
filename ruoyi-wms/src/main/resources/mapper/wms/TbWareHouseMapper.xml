@@ -33,7 +33,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTbWareHouseVo"/>
         where id = #{id}
     </select>
-        
+
+    <select id="checkHouseNameUnique" resultType="com.ruoyi.wms.domain.TbWareHouse">
+        <include refid="selectTbWareHouseVo"/>
+        where ware_house_name = #{wareHouseName}
+        <if test="id != null and id != 0">and id != #{id}</if>
+    </select>
+
     <insert id="insertTbWareHouse" parameterType="TbWareHouse" useGeneratedKeys="true" keyProperty="id">
         insert into tb_ware_house
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -71,6 +77,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null">remark = #{remark},</if>
         </trim>
         where id = #{id}
+    </update>
+    <update id="updateTbWareHousePublish">
+        UPDATE tb_ware_house SET is_publish = #{publishValue} WHERE id = #{id}
     </update>
 
     <delete id="deleteTbWareHouseById" parameterType="Long">

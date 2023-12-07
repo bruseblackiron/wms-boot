@@ -3,6 +3,7 @@ package com.ruoyi.wms.mapper;
 import java.util.List;
 
 import com.ruoyi.wms.domain.TbWareHouse;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 仓库Mapper接口
@@ -58,4 +59,20 @@ public interface TbWareHouseMapper {
      * @return 结果
      */
     public int deleteTbWareHouseByIds(Long[] ids);
+
+    /**
+     * 判断新增修改仓库的名称唯一性
+     * @param tbWareHouse --
+     * @return --
+     */
+    TbWareHouse checkHouseNameUnique(TbWareHouse tbWareHouse);
+
+    /**
+     * 启用或禁用仓库
+     * @param id 仓库id
+     * @param publishValue 启用/禁用
+     * @return --
+     */
+    int updateTbWareHousePublish(@Param("id") Long id, @Param("publishValue") Integer publishValue);
+
 }

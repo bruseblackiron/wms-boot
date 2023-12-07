@@ -95,4 +95,13 @@ public class TbWareHouseController extends BaseController {
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(tbWareHouseService.deleteTbWareHouseByIds(ids));
     }
+
+    /**
+     * 启用和禁用仓库
+     */
+    @PreAuthorize("@ss.hasPermi('wms:house:publish')")
+    @PostMapping(value = "/publish/{id}/{publishValue}")
+    public AjaxResult taggerPublish(@PathVariable("id") Long id, @PathVariable("publishValue") Integer publishValue) {
+        return AjaxResult.success(tbWareHouseService.updateTbWareHousePublish(id, publishValue));
+    }
 }

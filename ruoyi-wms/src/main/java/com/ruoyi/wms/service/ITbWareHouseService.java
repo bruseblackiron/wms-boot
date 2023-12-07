@@ -58,4 +58,12 @@ public interface ITbWareHouseService {
      * @return 结果
      */
     public int deleteTbWareHouseById(Long id);
+
+    /**
+     * 启用或禁用仓库
+     * @param id 仓库id
+     * @param publishValue 启用/禁用
+     * @return --
+     */
+    int updateTbWareHousePublish(Long id, Integer publishValue);
 }

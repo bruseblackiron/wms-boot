@@ -2,7 +2,10 @@ package com.ruoyi.wms.service.impl;
 
 import java.util.List;
 
+import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.common.exception.base.BaseException;
 import com.ruoyi.common.utils.DateUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.wms.mapper.TbWareHouseMapper;
@@ -50,6 +53,11 @@ public class TbWareHouseServiceImpl implements ITbWareHouseService {
      */
     @Override
     public int insertTbWareHouse(TbWareHouse tbWareHouse) {
+        //判断仓库名称的唯一性
+        TbWareHouse tbWareHouseUnique = tbWareHouseMapper.checkHouseNameUnique(tbWareHouse);
+        if(ObjectUtils.isNotEmpty(tbWareHouseUnique)){
+            throw new ServiceException("新增失败，仓库名称已经存在！");
+        }
         tbWareHouse.setCreateTime(DateUtils.getNowDate());
         return tbWareHouseMapper.insertTbWareHouse(tbWareHouse);
     }
@@ -62,6 +70,11 @@ public class TbWareHouseServiceImpl implements ITbWareHouseService {
      */
     @Override
     public int updateTbWareHouse(TbWareHouse tbWareHouse) {
+        //判断仓库名称的唯一性
+        TbWareHouse tbWareHouseUnique = tbWareHouseMapper.checkHouseNameUnique(tbWareHouse);
+        if(ObjectUtils.isNotEmpty(tbWareHouseUnique)){
+            throw new ServiceException("修改失败，仓库名称已经存在！");
+        }
         tbWareHouse.setUpdateTime(DateUtils.getNowDate());
         return tbWareHouseMapper.updateTbWareHouse(tbWareHouse);
     }
@@ -86,5 +99,10 @@ public class TbWareHouseServiceImpl implements ITbWareHouseService {
     @Override
     public int deleteTbWareHouseById(Long id) {
         return tbWareHouseMapper.deleteTbWareHouseById(id);
+    }
+
+    @Override
+    public int updateTbWareHousePublish(Long id, Integer publishValue) {
+        return tbWareHouseMapper.updateTbWareHousePublish(id, publishValue);
     }
 }
